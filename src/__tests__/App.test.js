@@ -19,7 +19,7 @@ test("<App /> La aplicación funciona bien la primera vez", () => {
   expect(screen.getByText("No hay citas")).toBeInTheDocument();
 });
 
-test("<App /> La aplicación funciona bien la primera vez", () => {
+test("<App /> Agregar una cita y verificar el Heading", () => {
   render(<App />);
 
   userEvent.type(screen.getByTestId("mascota"), "Hook");
@@ -43,4 +43,37 @@ test("<App /> La aplicación funciona bien la primera vez", () => {
   expect(screen.getByTestId("titulo-dinamico").textContent).not.toBe(
     "No hay citas"
   );
+});
+
+test("<App /> Verificar las citas en el DOM", async () => {
+  render(<App />);
+
+  const citas = await screen.findAllByTestId("cita");
+
+  // Snapshot crea un archivo para verificar su contenido
+  //  expect(citas).toMatchSnapshot();
+
+  expect(screen.getByTestId("btn-eliminar").tagName).toBe("BUTTON");
+  expect(screen.getByTestId("btn-eliminar")).toBeInTheDocument();
+
+  // Verificar alguna cita
+  expect(screen.getByText("Hook")).toBeInTheDocument();
+});
+
+test("<App /> Elimina la cita", () => {
+  render(<App />);
+
+  const btnEliminar = screen.getByTestId("btn-eliminar");
+  expect(btnEliminar.tagName).toBe("BUTTON");
+  expect(btnEliminar).toBeInTheDocument();
+
+  // Simular el click
+  userEvent.click(btnEliminar);
+
+  // El botón ya no deberá estar
+  expect(btnEliminar).not.toBeInTheDocument();
+
+  // La cita ya no debe estar
+  expect(screen.queryByText("Hook")).not.toBeInTheDocument();
+  expect(screen.queryByTestId("cita")).not.toBeInTheDocument();
 });
