@@ -63,7 +63,9 @@ const Formulario = ({ crearCita }) => {
       <h2 data-testid="titulo">Crear Cita</h2>
 
       {error ? (
-        <p className="alerta-error">Todos los campos son obligatorios</p>
+        <p data-testid="alerta" className="alerta-error">
+          Todos los campos son obligatorios
+        </p>
       ) : null}
 
       <form onSubmit={submitCita}>
@@ -126,7 +128,7 @@ const Formulario = ({ crearCita }) => {
 };
 
 Formulario.propTypes = {
-  crearCita: PropTypes.func,
+  crearCita: PropTypes.func.isRequired,
 };
 
 export default Formulario;
